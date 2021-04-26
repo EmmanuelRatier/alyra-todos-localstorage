@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import TodosList from "./TodosList"
 import SelectTodos from "./SelectTodos"
 import AddTodoForm from "./AddTodoForm"
 import { v4 as uuidv4 } from "uuid"
+
 
 const initialTodos = [
   {
@@ -35,6 +36,18 @@ const initialTodos = [
 const Todos = () => {
   const [todos, setTodos] = useState(initialTodos)
   const [filter, setFilter] = useState("all")
+
+
+  useEffect(() => {
+    document.title =
+      todos.length === 0
+        ? `Que devez vous faire aujourd'hui ?`
+        : `Vous avez ${todos.length} tâches à accomplir !`
+  }, [todos])
+
+  useEffect(() => {
+    localStorage.setItem("myTodoList", JSON.stringify(todos))
+  }, [todos])
 
   const addTodo = (text) => {
     const newTodo = {
